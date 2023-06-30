@@ -4,3 +4,5 @@ this tool can help you merge the pdf files that you scanned with single side sca
 download dist.zip and unzip it
 
 open the main.exe file that is inside the folder
+
+[Download File](https://github.com/MoGHenry/odd-even-pages-pdf-merger/blob/main/dist.zip)
