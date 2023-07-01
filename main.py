@@ -15,10 +15,17 @@ def merge_pdfs(pdf1_path, pdf2_path, output_path):
     # Create a new PDF writer object
     pdf_writer = PdfWriter()
 
-    # Append all the pages from the first PDF and second PDF
-    for page1, page2 in zip(pdf1.pages, pdf2.pages):
-        pdf_writer.add_page(page1)
-        pdf_writer.add_page(page2)
+    if not radio_var:
+        # Append all the pages from the first PDF and second PDF
+        for page1, page2 in zip(pdf1.pages, pdf2.pages):
+            pdf_writer.add_page(page1)
+            pdf_writer.add_page(page2)
+    else:
+        # Append all the pages from the first PDF and second PDF in inverse order
+        for page1, page2 in zip(pdf1.pages, reversed(pdf2.pages)):
+            pdf_writer.add_page(page1)
+            pdf_writer.add_page(page2)
+
 
     # # Append all the pages from the first PDF
     # for page in pdf1.pages:
@@ -86,6 +93,7 @@ def show_success_message():
 # Create the main window
 window = tk.Tk()
 window.title("PDF Merger")
+# window.configure(bg="#090580")
 
 # Calculate the screen width and height
 screen_width = window.winfo_screenwidth()
@@ -106,9 +114,10 @@ window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 style = ttk.Style(window)
 style.theme_use('clam')
 
+
 # Configure the style for the buttons
 style.configure("TButton",
-                background="#2C2F33",
+                background="#090580",
                 foreground="white",
                 font=("Arial", 12),
                 padding=10,
@@ -120,6 +129,21 @@ style.configure("TLabel",
                 foreground="white",
                 font=("Arial", 12),
                 padding=5)
+
+radio_frame = ttk.Frame(window)
+radio_frame.pack(pady=10)
+radio_var = tk.IntVar()
+
+radio_button1 = tk.Radiobutton(radio_frame, text="reverse order", variable=radio_var, value="0", bg="#dcdad5")
+radio_button1.grid(row=0, column=0, padx=10, pady=4)
+
+radio_button2 = tk.Radiobutton(radio_frame, text="normal", variable=radio_var, value="1", bg="#dcdad5")
+radio_button2.grid(row=0, column=1, padx=10, pady=4)
+
+# Configure the grid to span two columns
+radio_frame.grid_columnconfigure(0, weight=1)
+radio_frame.grid_columnconfigure(1, weight=1)
+
 
 frame = ttk.Frame(window)
 frame.pack(pady=20)
